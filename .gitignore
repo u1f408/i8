@@ -1,0 +1,7 @@
+/vendor
+/documentroot
+.phpunit.result.cache
+*.sqlite3
+.env
+.env.*
+!.env.dist
