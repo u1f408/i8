@@ -70,6 +70,7 @@ class i8Html {
 	public function renderDefault(array $head, array $body): string {
 		$head = array_merge([
 			$this->tag('meta', ['charset' => 'utf-8']),
+			$this->tag('meta', ['name' => 'viewport', 'content' => 'initial-scale=1, width=device-width']),
 			$this->tag('link', ['rel' => 'stylesheet', 'href' => '/styles.css']),
 		], $head);
 
