@@ -30,6 +30,10 @@ server {
 	# Or, however you enable PHP
 	include /etc/nginx/fastcgi_php.conf;
 
+	location /styles.css {
+		try_files $uri =404;
+	}
+
 	location / {
 		rewrite . /index.php last;
 	}
