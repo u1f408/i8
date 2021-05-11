@@ -133,7 +133,7 @@ class i8Controllers {
 		);
 
 		// Save our API key as a cookie
-		$cookie = new SetCookie('i8apikey', $query_values['setapikey'], time() + (60 * 60 * 24 * 7), '/');
+		$cookie = new SetCookie('i8apikey', $user_obj['apikey'], time() + (60 * 60 * 24 * 7), '/');
 		$response = $cookie->addToResponse($response);
 
 		// And redirect to the index page
