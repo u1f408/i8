@@ -14,6 +14,9 @@ class i8Controllers {
 	/** @var ?ContainerInterface $container */
 	public $container;
 
+	/** @var \i8Html $html */
+	public $html;
+
 	/**
 	 * Construct an i8Controllers instance
 	 *
@@ -21,6 +24,7 @@ class i8Controllers {
 	 */
 	public function __construct(?ContainerInterface $container) {
 		$this->container = $container;
+		$this->html = new \i8Html();
 	}
 
 	/**

@@ -48,6 +48,25 @@ class i8Helpers {
 	}
 
 	/**
+	 * Flatten an array.
+	 *
+	 * @param mixed[] $data
+	 * @param mixed[] $result
+	 * @return mixed[]
+	 */
+	public static function array_flatten($data, array $result = []): array {
+		foreach ($data as $flat) {
+			if (is_array($flat)) {
+				$result = self::array_flatten($flat, $result);
+			} else {
+				$result[] = $flat;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Generate a new token
 	 *
 	 * @return string The generated token
