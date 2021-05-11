@@ -254,12 +254,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/magentasso/magentasso-php.git",
-                "reference": "aac4fe2519e69ccbc42edd4913efc03082321e0c"
+                "reference": "7f1c1ba9ef79560fa11df0cd69dc4acc45b16215"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/magentasso/magentasso-php/zipball/aac4fe2519e69ccbc42edd4913efc03082321e0c",
-                "reference": "aac4fe2519e69ccbc42edd4913efc03082321e0c",
+                "url": "https://api.github.com/repos/magentasso/magentasso-php/zipball/7f1c1ba9ef79560fa11df0cd69dc4acc45b16215",
+                "reference": "7f1c1ba9ef79560fa11df0cd69dc4acc45b16215",
                 "shasum": ""
             },
             "require": {
@@ -290,7 +290,7 @@
                 "source": "https://github.com/magentasso/magentasso-php/tree/main",
                 "issues": "https://github.com/magentasso/magentasso-php/issues"
             },
-            "time": "2021-05-09T15:13:45+00:00"
+            "time": "2021-05-11T17:57:10+00:00"
         },
         {
             "name": "nikic/fast-route",
