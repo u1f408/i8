@@ -44,8 +44,8 @@ class i8Controllers {
 	}
 
 	/**
-	 * Redirect to the SSO initiation if not authenticated, otherwise
-	 * display the user's API key and a form to let them shorten a URL.
+	 * If logged in, show a form to shorten a URL, as well as a log out button.
+	 * If not logged in, show a log in button.
 	 *
 	 * @param mixed[] $args
 	 */
@@ -74,8 +74,40 @@ class i8Controllers {
 				$this->html->tag('input', ['type' => 'text', 'name' => 'url', 'placeholder' => 'URL to shorten']),
 				$this->html->tagHasChildren('button', ['type' => 'submit'], "Shorten"),
 			]),
+			$this->html->tagHasChildren('form', ['method' => 'GET', 'action' => '/apikey'], ...[
+				$this->html->tagHasChildren('button', ['type' => 'submit'], "Show API key"),
+			]),
 			$this->html->tagHasChildren('form', ['method' => 'POST', 'action' => '/sso/logout', 'class' => 'form-auth'], ...[
 				$this->html->tagHasChildren('button', ['type' => 'submit'], "Log out"),
+			]),
+		]));
+
+		return $response;
+	}
+	/**
+	 * Display the user's API key, if they're logged in, otherwise 404.
+	 *
+	 * @param mixed[] $args
+	 */
+	public function showapikey(Request $request, Response $response, ?array $args = []): Response {
+		$user_obj = null;
+		$cookies = $request->getCookieParams();
+		if (array_key_exists('i8apikey', $cookies)) {
+			$user_obj = i8Helpers::user_get_by_apikey($cookies['i8apikey']);
+		}
+
+		if ($user_obj === null) {
+			throw new HttpNotFoundException($request);
+		}
+		
+		$response->getBody()->write($this->html->renderDefault([], [
+			$this->html->tagHasChildren('h1', [], "i8"),
+			$this->html->tagHasChildren('span', ['class' => 'margin-y'], ...[
+				"Your API key is: ",
+				$this->html->tagHasChildren('code', [], htmlspecialchars($user_obj['apikey'])),
+			]),
+			$this->html->tagHasChildren('form', ['method' => 'GET', 'action' => '/'], ...[
+				$this->html->tagHasChildren('button', ['type' => 'submit'], "Back to home"),
 			]),
 		]));
 
