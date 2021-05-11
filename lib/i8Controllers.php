@@ -191,10 +191,13 @@ class i8Controllers {
 	 * @param mixed[] $args
 	 */
 	public function shorten(Request $request, Response $response, ?array $args = []): Response {
+		$rBody = (array) $request->getParsedBody();
+		$rCookie = (array) $request->getCookieParams();
+
 		// Get API key - first from request body, then from cookies
-		$apikey = array_key_exists('apikey', (array) $request->getParsedBody()) ? ((array) $request->getParsedBody())['apikey'] : null;
+		$apikey = array_key_exists('apikey', $rBody) ? $rBody['apikey'] : null;
 		if ($apikey === null)
-			$apikey = array_key_exists('i8apikey', (array) $request->getCookieParams()) ? ((array) $request->getCookieParams())['i8apikey'] : null;
+			$apikey = array_key_exists('i8apikey', $rCookie) ? $rCookie['i8apikey'] : null;
 
 		// Abort if no API key
 		if ($apikey === null)
@@ -204,8 +207,13 @@ class i8Controllers {
 		if (($user = i8Helpers::user_get_by_apikey($apikey)) === null) 
 			throw new HttpBadRequestException($request);
 
+		// Abort if no URL
+		$url = array_key_exists('url', $rBody) ? trim($rBody['url']) : null;
+		if (empty($url))
+			throw new HttpBadRequestException($request);
+
 		// Get or create a URL entry for this URL
-		$shortened = i8Helpers::url_get_or_create(((array) $request->getParsedBody())['url'], intval($user['id']), true);
+		$shortened = i8Helpers::url_get_or_create($rBody['url'], intval($user['id']), true);
 
 		// Get the encoded slug for this URL
 		$slug = i8Helpers::slug_encode(intval($shortened['id']));
