@@ -90,8 +90,8 @@ class i8Controllers {
 	public function sso_logout(Request $request, Response $response, ?array $args = []): Response {
 		$cookie = SetCookie::thatDeletesCookie('i8apikey', '/');
 		$response = $cookie->addToResponse($response);
-		$response->getBody()->write('<meta charset="utf-8"><p>Logged out!</p>');
-		return $response;
+
+		return $response->withHeader('Location', '/')->withStatus(302);
 	}
 
 	/**

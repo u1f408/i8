@@ -44,7 +44,7 @@ class i8 {
 		// Add normal app routes
 		$this->app->get('/sso', \i8Controllers::class . ':sso_initiate');
 		$this->app->get('/sso/callback', \i8Controllers::class . ':sso_callback');
-		$this->app->post('/sso/logout', \i8Controllers::class . ':sso_logout');
+		$this->app->any('/sso/logout', \i8Controllers::class . ':sso_logout');
 		$this->app->post('/shorten', \i8Controllers::class . ':shorten');
 		$this->app->get('/{slug:[A-Z02-7]+}', \i8Controllers::class . ':slug');
 		$this->app->any('/', \i8Controllers::class . ':index');
