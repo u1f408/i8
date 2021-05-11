@@ -46,7 +46,7 @@ class i8 {
 		$this->app->get('/sso/callback', \i8Controllers::class . ':sso_callback');
 		$this->app->post('/sso/logout', \i8Controllers::class . ':sso_logout');
 		$this->app->post('/shorten', \i8Controllers::class . ':shorten');
-		$this->app->get('/{slug}', \i8Controllers::class . ':slug');
+		$this->app->get('/{slug:[A-Z02-7]+}', \i8Controllers::class . ':slug');
 		$this->app->any('/', \i8Controllers::class . ':index');
 	}
 }

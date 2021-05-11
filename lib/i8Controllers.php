@@ -177,8 +177,10 @@ class i8Controllers {
 	 */
 	public function slug(Request $request, Response $response, ?array $args = []): Response {
 		$urlID = i8Helpers::slug_decode($args['slug']);
-		if (($urlEntry = i8Helpers::url_get($urlID)) !== false) {
+		if (($urlEntry = i8Helpers::url_get($urlID)) !== null) {
 			return $response->withHeader('Location', $urlEntry['url'])->withStatus(302);
 		}
+
+		throw new HttpNotFoundException($request);
 	}
 }
