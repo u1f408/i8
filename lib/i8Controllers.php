@@ -56,16 +56,29 @@ class i8Controllers {
 			$user_obj = i8Helpers::user_get_by_apikey($cookies['i8apikey']);
 		}
 
-		// Redirect to SSO initiation if no user
-		if ($user_obj === null) {
-			return $response->withHeader('Location', '/sso')->withStatus(302);
-		}
-
-		// Render the landing page
 		$responseBody = $response->getBody();
-		$responseBody->write('<meta charset="utf-8"><h1>i8</h1>');
-		$responseBody->write('<form method="POST" action="/shorten" style="margin:1rem 0"><input type="text" name="url" placeholder="URL to shorten"><button type="submit">Shorten</button></form>');
-		$responseBody->write('<form method="POST" action="/sso/logout" style="margin:1rem 0"><button type="submit">Click here to log out</button></form>');
+		if ($user_obj === null) {
+			$responseBody->write($this->html->renderDefault([], [
+				$this->html->tagHasChildren('form', ['method' => 'GET', 'action' => '/sso', 'class' => 'form-auth'], ...[
+					$this->html->tagHasChildren('button', ['type' => 'submit'], "Log in"),
+				]),
+			]));
+
+			return $response;
+		}
+		
+		$responseBody->write($this->html->renderDefault([], [
+			$this->html->tagHasChildren('h1', [], "i8"),
+			$this->html->tagHasChildren('span', ['class' => 'margin-y'], "Logged in as " . htmlspecialchars($user_obj['email'])),
+			$this->html->tagHasChildren('form', ['method' => 'POST', 'action' => '/shorten', 'class' => 'form-shorten'], ...[
+				$this->html->tag('input', ['type' => 'text', 'name' => 'url', 'placeholder' => 'URL to shorten']),
+				$this->html->tagHasChildren('button', ['type' => 'submit'], "Shorten"),
+			]),
+			$this->html->tagHasChildren('form', ['method' => 'POST', 'action' => '/sso/logout', 'class' => 'form-auth'], ...[
+				$this->html->tagHasChildren('button', ['type' => 'submit'], "Log out"),
+			]),
+		]));
+
 		return $response;
 	}
 
