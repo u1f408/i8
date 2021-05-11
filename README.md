@@ -8,22 +8,14 @@ Assuming you have your web roots in `/var/www`,
 and you want to keep i8 in `/var/www/i8`:
 
 ```shell
-% # Create the directory to store the i8 repo + the document root
-% mkdir -p /var/www/i8/public
-% cd /var/www/i8
-
 % # Clone the repo and install dependencies
-% git clone https://github.com/u1f408/i8.git i8-repo
-% cd ./i8-repo
+% git clone https://github.com/u1f408/i8.git /var/www/i8
+% cd /var/www/i8
 % composer install
 
 % # Edit the configuration environment variables
 % cp .env.dist .env
 % $EDITOR .env
-
-% # Create a symlink in the document root to i8's index.php
-% cd ../public
-% ln -s ../i8-repo/index.php .
 ```
 
 Point your web server's document root to
